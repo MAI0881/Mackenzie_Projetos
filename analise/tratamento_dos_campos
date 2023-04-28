@@ -1,5 +1,6 @@
-<h1 style="color:green; font-size:22px; font-weight:bold; text-align:left;">Tratando a coluna ratings</h1>
+# Tratando a coluna ratings
+import numpy as np
 
-#Verificando quais valores não são numéricos
+print(df['ratings'].unique()) #Verificando quais valores não são numéricos
 
-print(df['ratings'].unique())
+df['ratings'] = df['ratings'].replace(['Get', 'FREE','₹68.99','₹65','₹70','₹100','₹99','₹2.99'], np.nan).astype(float) #remover valores não numéricos da coluna ratings
