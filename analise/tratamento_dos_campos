@@ -1,0 +1,5 @@
+<h1 style="color:green; font-size:22px; font-weight:bold; text-align:left;">Tratando a coluna ratings</h1>
+
+#Verificando quais valores não são numéricos
+
+print(df['ratings'].unique())
