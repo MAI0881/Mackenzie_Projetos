@@ -1,6 +1,85 @@
-# Tratando a coluna ratings
-import numpy as np
+#Importando e juntando CSV'S:
+import os
+import glob
+import pandas as pd
 
+os.chdir(r"C:\Users\Maiara\OneDrive\MACKENZIE\Amazon")
+extension = 'csv'
+all_filenames = [i for i in glob.glob('*.{}'.format(extension))]
+df = pd.concat([pd.read_csv(f) for f in all_filenames])
+df.to_csv("df.csv", index=False, encoding='utf-8-sig')
+
+# Usando o método drop() para excluir a coluna "Unnamed: 0"
+df = df.drop('Unnamed: 0', axis=1)
+
+
+
+
+# Tratando a coluna ratings
+
+import numpy as np
 print(df['ratings'].unique()) #Verificando quais valores não são numéricos
 
 df['ratings'] = df['ratings'].replace(['Get', 'FREE','₹68.99','₹65','₹70','₹100','₹99','₹2.99'], np.nan).astype(float) #remover valores não numéricos da coluna ratings
+
+#Tratando a coluna no_of_ratings
+
+#Substituir por 0 todos os valores do campos que possuem mais de 10 caracteres na coluna no_of_ratings
+#Usamos uma função substituir_valor() dentro de uma função lambda dentro do método apply() para substituir valores da coluna 'no_of_ratings'. A função substituir_valor() verifica se cada valor é uma string ou um valor numérico e, em seguida, verifica se o comprimento da string é maior que 10 antes de retornar 0 ou o valor original. Para valores numéricos, a função converte o valor em uma string usando str() antes de verificar o comprimento.
+def substituir_valor(valor):
+    if isinstance(valor, str) and len(valor) > 10:
+        return '0'
+    elif isinstance(valor, (int, float)) and len(str(valor)) > 10:
+        return 0
+    else:
+        return valor
+df['no_of_ratings'] = df['no_of_ratings'].apply(lambda x: substituir_valor(x))
+
+df['no_of_ratings'] = df['no_of_ratings'].str.replace(',', '.').astype(float) #Substitui o separador de casas decimais de , para . na coluna no_of_ratings
+
+#Tratando a coluna discount_price
+
+#Remove o sinal '₹' do campo
+df['discount_price'] = df['discount_price'].str.replace('₹', '')
+
+def corrigir_casas_decimais(valor):
+    if isinstance(valor, str) and '.' in valor:
+        valor = valor.replace('.', ',', 1) #substituir o segundo ponto decimal por uma vírgula
+    return valor
+
+#Aplicar a função a cada valor da coluna
+df['discount_price'] = df['discount_price'].apply(corrigir_casas_decimais)
+
+def converter_para_float(valor):
+    if isinstance(valor, str):
+        valor = valor.replace(',', '.')  # substituir vírgula por ponto
+    try:
+        valor = float(valor)  # converter para float
+    except ValueError:
+        valor = float('NaN')  # converter valor inválido para NaN
+    return valor
+
+df['discount_price'] = df['discount_price'].apply(converter_para_float) #Aplicar a função a cada valor da coluna
+
+# Tratando a coluna actual_price
+
+df['actual_price'] = df['actual_price'].str.replace('₹', '') #Remove o sinal '₹' do campo
+
+def corrigir_casas_decimais(valor):
+    if isinstance(valor, str) and '.' in valor: # substituir o segundo ponto decimal por uma vírgula
+        valor = valor.replace('.', ',', 1)
+    return valor
+
+
+df['actual_price'] = df['actual_price'].apply(corrigir_casas_decimais) # aplicar a função a cada valor da coluna
+
+def converter_para_float(valor):
+    if isinstance(valor, str):
+        valor = valor.replace(',', '.')  # substituir vírgula por ponto
+    try:
+        valor = float(valor)  # converter para float
+    except ValueError:
+        valor = float('NaN')  # converter valor inválido para NaN
+    return valor
+
+df['actual_price'] = df['actual_price'].apply(converter_para_float) # aplicar a função a cada valor da coluna
