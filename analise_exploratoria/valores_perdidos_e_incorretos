@@ -1,0 +1,102 @@
+# Importação e junção dos arquivos CSV
+
+import os  # importa a biblioteca os, que permite interagir com o sistema operacional
+import glob  # importa a biblioteca glob, que permite encontrar todos os arquivos que correspondem a um padrão de nome
+import pandas as pd  # importa a biblioteca pandas e a renomeia como pd
+
+os.chdir(r"C:\Users\Maiara\OneDrive\MACKENZIE\Amazon")  # define o diretório de trabalho para a pasta "Amazon" no OneDrive
+
+extension = 'csv'  # define a extensão desejada para os arquivos a serem lidos como "csv"
+all_filenames = [i for i in glob.glob('*.{}'.format(extension))]  # cria uma lista com o nome de todos os arquivos na pasta atual com a extensão "csv"
+
+df = pd.concat([pd.read_csv(f) for f in all_filenames])  # concatena todos os arquivos da lista "all_filenames" em um único DataFrame "df"
+df.to_csv("df.csv", index=False, encoding='utf-8-sig')  # salva o DataFrame "df" em um arquivo CSV chamado "df.csv", sem incluir o índice e usando a codificação "utf-8-sig"
+
+# Número de exemplares (linhas) e dimensões (colunas)
+
+df.shape # Retorna as dimensões dos dados (linhas e colunas)
+
+# Tipos de dados
+
+df.dtypes # A função "dtypes" retorna uma série com os tipos de dados de cada coluna
+
+df = df.drop('Unnamed: 0', axis=1) # A função "drop()" é usada para remover uma coluna ou linha do DataFrame usando o eixo 1 (axis=1), que indica a coluna.
+# O resultado é atribuído novamente à variável "df".
+
+# Tratando a coluna ratings
+
+print(df['ratings'].unique())
+# Printa uma lista de valores únicos encontrados na coluna 'ratings' para identificar valores não numéricos
+
+import numpy as np
+# Importa a biblioteca NumPy e a renomeia como "np".
+
+df['ratings'] = df['ratings'].replace(['Get', 'FREE','₹68.99','₹65','₹70','₹100','₹99','₹2.99'], np.nan).astype(float)
+# A função "replace()" é usada para substituir os valores 'Get', 'FREE', '₹68.99', '₹65', '₹70', '₹100', '₹99' e '₹2.99' pelo valor NaN, que indica um valor ausente.
+# Em seguida, a função "astype()" é usada para converter a coluna para o tipo de dados float, que é o tipo mais adequado para a coluna 'ratings'.
+# O resultado é atribuído novamente à coluna 'ratings' do DataFrame 'df'.
+
+#Tratando a coluna no_of_ratings
+
+def change_value(valor):
+    # Verifica se o valor é uma string com mais de 10 caracteres
+    if isinstance(valor, str) and len(valor) > 10:
+        return '0'  # Substitui o valor por 0
+    # Verifica se o valor é um número int ou float com mais de 10 dígitos
+    elif isinstance(valor, (int, float)) and len(str(valor)) > 10:
+        return 0  # Substitui o valor por 0
+    else:
+        return valor  # Retorna o valor original
+
+# Aplica a função change_value à coluna 'no_of_ratings' do df usando a função lambda
+df['no_of_ratings'] = df['no_of_ratings'].apply(lambda x: change_value(x))
+
+# Substitui as vírgulas por pontos na coluna 'no_of_ratings' e converte os valores para o tipo float
+df['no_of_ratings'] = df['no_of_ratings'].str.replace(',', '.').astype(float)
+
+#Tratando a coluna discount_price
+
+#Remove o sinal '₹' do campo
+df['discount_price'] = df['discount_price'].str.replace('₹', '')
+
+def correct_decimal(valor):
+    if isinstance(valor, str) and '.' in valor:
+        valor = valor.replace('.', ',', 1) #substitui o segundo ponto decimal por uma vírgula
+    return valor
+
+#Aplicar a função a cada valor da coluna
+df['discount_price'] = df['discount_price'].apply(correct_decimal)
+
+def convert_to_float(valor):
+    if isinstance(valor, str):
+        valor = valor.replace(',', '.')  # substituir vírgula por ponto
+    try:
+        valor = float(valor)  # converte pra float
+    except ValueError:
+        valor = float('NaN')  # converte valor inválido pra "NOT A NUMBER"
+    return valor
+
+df['discount_price'] = df['discount_price'].apply(convert_to_float) #Aplica a função pra cada valor da coluna
+
+# Tratando a coluna actual_price
+
+df['actual_price'] = df['actual_price'].str.replace('₹', '') #Remove o sinal '₹' do campo
+
+def correct_decimal(valor):
+    if isinstance(valor, str) and '.' in valor: # substitui o segundo ponto decimal por uma vírgula
+        valor = valor.replace('.', ',', 1)
+    return valor
+
+
+df['actual_price'] = df['actual_price'].apply(correct_decimal) # aplica a função a cada valor da coluna
+
+def convert_to_float(valor):
+    if isinstance(valor, str):
+        valor = valor.replace(',', '.')  # substitui vírgula por ponto
+    try:
+        valor = float(valor)  # converte pra float
+    except ValueError:
+        valor = float('NaN')  # converte valor inválido pra "NOT A NUMBER"
+    return valor
+
+df['actual_price'] = df['actual_price'].apply(convert_to_float) # aplica a função a cada valor da coluna
