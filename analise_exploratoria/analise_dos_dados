@@ -1,0 +1,96 @@
+# Medidas de posição e dispersão
+
+df.describe()
+
+# Distribuição e frequência
+
+import seaborn as sns  # Importa a biblioteca Seaborn
+import pandas as pd  # Importa a biblioteca Pandas
+import matplotlib.pyplot as plt # Importa o método pyplot
+
+sns.set_style('whitegrid')
+
+# Obtém a contagem de cada valor único da coluna 'main_category' e cria uma tabela de frequência
+count = df['main_category'].value_counts().reset_index()
+count.columns = ['main_category', 'count']
+
+# Plota a tabela de frequência como um gráfico de barras
+fig, ax = plt.subplots(figsize=(20, 5))
+g = sns.barplot(data=count, x='main_category', y='count', color='red', ax=ax)
+
+g.set(xlabel='Main Category', ylabel='Count')
+g.set_xticklabels(count['main_category'], rotation=55, fontsize=12)
+g.set_yticklabels(g.get_yticks(), fontsize=10)
+g.tick_params(axis='y', labelsize=10)
+
+plt.show()
+
+
+# Cria uma figura com tamanho 10x6 polegadas
+fig = plt.figure(figsize=(10,6))
+
+# Plota o boxplot com tamanho aumentado para a categoria "accessories"
+df[df['main_category'] == "accessories"].boxplot(column='ratings', figsize=(10,6), positions=[1])
+
+# Plota o boxplot com tamanho aumentado para todas as categorias
+df.boxplot(column='ratings', figsize=(10,6), positions=[2])
+
+# Adiciona um título e labels aos eixos x e y
+plt.title('Distribuição da Coluna Ratings', fontsize=16)
+plt.xlabel('Categorias', fontsize=14)
+plt.ylabel('Ratings', fontsize=14)
+
+# Define o label do eixo x como o nome da categoria
+plt.xticks([1, 2], ["Accessories", "Todas as categorias"], fontsize=12)
+
+# Adiciona uma grade ao gráfico
+plt.grid(True)
+
+# Aumenta o tamanho das fontes dos eixos x e y
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+
+# Exibe o gráfico
+plt.show()
+
+# Correlações
+
+# Seleciona apenas as colunas 'no_of_ratings' e 'discount_price'
+cols = ['ratings', 'discount_price']
+df_selected = df[cols]
+
+# Calcula a matriz de correlação
+corr= df_selected.corr()
+
+# Cria um heatmap com a matriz de correlação
+sns.heatmap(corr, annot=True, cmap='coolwarm')
+
+# Define o título do gráfico
+plt.title('Matriz de Correlação')
+
+# Exibe o gráfico
+plt.show()
+
+# Anomalias e outliers
+
+# Agrupar o dataframe por categoria e calcular a média de ratings e no_of_ratings em cada grupo
+grouped = df.groupby('main_category')[['ratings', 'no_of_ratings']].mean()
+
+# Criar uma nova figura com tamanho 10x8 polegadas
+plt.figure(figsize=(13, 8))
+
+# Plotar o gráfico de dispersão para cada categoria
+for category, data in grouped.iterrows():
+    x = data['no_of_ratings']
+    y = data['ratings']
+    plt.scatter(x, y, label=category, s=50)  # aumentar o tamanho dos pontos
+
+# Definir os rótulos dos eixos
+plt.xlabel('Número de Avaliações')
+plt.ylabel('Avaliação Média')
+
+# Adicionar uma legenda com as categorias
+plt.legend()
+
+# Mostrar o gráfico
+plt.show()
