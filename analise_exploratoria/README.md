@@ -1,7 +1,7 @@
 # Análise Exploratória - Vendas Amazon 2023
 
 
-# 🙌  1. Apresentação da Amazon
+# 🙌  1 Apresentação da Amazon
 
 Não é novidade que o comércio virtual revolucionou a maneira de se fazer compras e o impacto das lojas **`e-commerce`** na vida cotidiana é inegável. **Hoje, 74% das pessoas brasileiras preferem fazer compras online e 37% dessas pessoas costumam comprar com uma regularidade mensal** de acordo com um [levantamento daNZN Intelligence](https://www.ecommercebrasil.com.br/noticias/compra-online-preferencia-de-consumidores-brasileiros/#:~:text=Compra%20online%20%C3%A9%20prefer%C3%AAncia%20de%2074%25%20dos%20consumidores%20brasileiros,-3.3%2F5.0&text=Agilidade%2C%20comodidade%2C%20melhores%20pre%C3%A7os%20e%20condi%C3%A7%C3%B5es.&text=Segundo%20levantamento%20realizado%20pelo%20NZN,compras%20realizadas%20em%20lojas%20f%C3%ADsicas.).
 
@@ -67,7 +67,7 @@ Em 2022 a **gigante do varejo** já contava com mais de **`1.500.000`** funcion�
     - **Amazon Prime Air:** O serviço de entrega por **`drone`** da Amazon é outro exemplo de aplicação de tecnologias de Data Science. Os drones **usam algoritmos de navegação autônoma para evitar obstáculos e encontrar o caminho mais rápido para o destino de entrega.** Os dados coletados pelos drones também podem ser usados para otimizar as rotas de entrega e melhorar a eficiência operacional da empresa.
     - **Amazon Rekognition:** O serviço de **`reconhecimento de imagens`** da Amazon **usa tecnologias de aprendizado de máquina para analisar e identificar objetos, pessoas e outras informações em imagens e vídeos.** O Rekognition pode ser usado para melhorar a segurança em eventos públicos, identificar suspeitos em imagens de câmeras de segurança e muito mais.
 
-# ❓ 2. Problema do Estudo
+# ❓ Problema do Estudo
 
 A análise exploratória tem como objetivo **`responder perguntas`** importantes do negócio para alcançar determinados objetivos. Para que essa análise seja eficaz, é necessário realizá-la de forma sistemática, seguindo um processo bem definido e organizado.
 
@@ -96,3 +96,6 @@ Ao seguir um processo sistemático de análise exploratória, utilizando o pensa
     
     Em resumo, o pensamento computacional pode nos ajudar a abordar essas perguntas de maneira mais eficiente e eficaz, fornecendo insights valiosos que podem ser usados para melhorar os resultados do negócio na Amazon.
     
+    # 📖 Glossário
+
+[Dicionário de termos](https://www.notion.so/5f357f3a6100420b96d993c50fbe3fd3)
