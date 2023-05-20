@@ -1,5 +1,5 @@
 # Análise Exploratória Amazon
-
+Análise completa: https://www.notion.so/Vendas-Amazon-em-2023-48ccc4cea37b409ab11138e3adbb64a2?pvs=4
 
 # **Objetivos do projeto**
 
