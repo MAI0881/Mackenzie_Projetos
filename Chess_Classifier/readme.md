@@ -39,4 +39,7 @@ Transferência de Aprendizado: A VGG16 é frequentemente usada como base para ta
 - Para cálculo do custo utilizaremos o cálculo de entropia cruzada baseada na técnica one hot encoding;
 - Foi ajustada a quantidade de épocas - uma época é uma iteração completa do conjunto de dados de treinamento através do modelo durante o treinamento, que melhor funciona com a taxa de aprendizado determinada.
 
-
+# O Processo
+Após realizar os testes iniciais, a acurácia do modelo estava em 5%. Em seguida, foram feitas algumas modificações nos parâmetros das imagens, aumentando seu tamanho de 96x96 para 160x160. No compilador, a taxa de aprendizado, que anteriormente era o valor padrão (0.001), foi reduzida para 0.0001. Como havia 12 classes para previsão, foi implementada uma função de perda baseada na técnica one-hot encoding para medir a dissimilaridade entre os rótulos reais e as probabilidades previstas para cada classe. Além disso, o número de épocas foi aumentado de 5 para 40.
+Após essas alterações, a acurácia do modelo aumentou para 75%. 
+Em seguida, foi aplicada a técnica de data augmentation devido à limitação na quantidade de imagens disponíveis no dataset. Observou-se que após 26 épocas, o custo começava a aumentar novamente. Para lidar com isso, o número de épocas foi reduzido para 26 e a taxa de aprendizado foi ligeiramente aumentada para 0.0002. Com essas modificações, a acurácia do modelo foi aprimorada para 90%.
